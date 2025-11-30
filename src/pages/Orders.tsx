@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import TopNav from '@/components/TopNav';
+import Footer from '@/components/Footer';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
@@ -147,6 +148,7 @@ const Orders = () => {
           </Tabs>
         </Card>
       </main>
+      <Footer />
     </div>
   );
 };

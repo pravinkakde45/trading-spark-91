@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import TopNav from '@/components/TopNav';
+import Footer from '@/components/Footer';
 import CandlestickChart from '@/components/CandlestickChart';
 import Orderbook from '@/components/Orderbook';
 import OrderForm from '@/components/OrderForm';
@@ -64,6 +65,7 @@ const Market = () => {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 };

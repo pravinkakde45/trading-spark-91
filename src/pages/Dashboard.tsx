@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import TopNav from '@/components/TopNav';
+import Footer from '@/components/Footer';
 import WatchlistCard from '@/components/WatchlistCard';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrendingUp, TrendingDown, DollarSign, Activity } from 'lucide-react';
@@ -107,6 +108,7 @@ const Dashboard = () => {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 };
