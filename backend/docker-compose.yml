@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: trading-postgres
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-trading_platform}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - trading-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: trading-redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - trading-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: trading-backend
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: ${PORT:-3000}
+      HOST: ${HOST:-0.0.0.0}
+      DATABASE_URL: postgresql://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@postgres:5432/${DB_NAME:-trading_platform}
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-trading_platform}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      REDIS_URL: redis://redis:6379
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+      WEBHOOK_SECRET: ${WEBHOOK_SECRET}
+      ALPACA_API_URL: ${ALPACA_API_URL:-https://paper-api.alpaca.markets}
+      ALPACA_STREAM_URL: ${ALPACA_STREAM_URL:-wss://stream.data.alpaca.markets/v2/iex}
+      BINANCE_API_URL: ${BINANCE_API_URL:-https://testnet.binance.vision/api}
+      BINANCE_WS_URL: ${BINANCE_WS_URL:-wss://testnet.binance.vision/ws}
+      KITE_API_URL: ${KITE_API_URL:-https://kite.zerodha.com}
+    ports:
+      - "${PORT:-3000}:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - trading-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  trading-network:
+    driver: bridge
+

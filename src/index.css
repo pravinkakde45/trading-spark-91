@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Trading Platform Design System - Dark Theme */
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
+
+    /* Glass-morphism cards */
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 98%;
+    --card-glass: 222 47% 10%;
+
+    --popover: 222 47% 8%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Cyan accent for primary actions */
+    --primary: 188 94% 55%;
+    --primary-foreground: 222 47% 11%;
+    --primary-glow: 188 94% 65%;
+
+    /* Subtle secondary */
+    --secondary: 217 32% 17%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 32% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 188 94% 55%;
+    --accent-foreground: 222 47% 11%;
+
+    /* Trading-specific colors */
+    --buy: 142 76% 45%;
+    --buy-foreground: 210 40% 98%;
+    --buy-hover: 142 76% 55%;
+    
+    --sell: 0 84% 60%;
+    --sell-foreground: 210 40% 98%;
+    --sell-hover: 0 84% 70%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 32% 20%;
+    --input: 217 32% 17%;
+    --ring: 188 94% 55%;
+
+    --radius: 0.75rem;
+
+    /* Trading UI specific */
+    --price-up: 142 76% 45%;
+    --price-down: 0 84% 60%;
+    --volume-bar: 188 94% 55%;
+    
+    /* Glass effect */
+    --glass-bg: 222 47% 10% / 0.7;
+    --glass-border: 217 32% 25% / 0.5;
+    
+    /* Shadows and glows */
+    --shadow-glow: 188 94% 55% / 0.2;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  
+  /* Trading-specific typography */
+  .font-mono-price {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  
+  /* Glass-morphism utility */
+  .glass-card {
+    background: hsl(var(--card-glass) / 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--glass-border));
+  }
+  
+  /* Animations */
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px hsl(var(--shadow-glow)); }
+    50% { box-shadow: 0 0 30px hsl(var(--shadow-glow)); }
+  }
+  
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out;
+  }
+  
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
